@@ -30,6 +30,7 @@ cai								= false;
 
 //não é a vida em si mais é isso
 vida							= choose(3, 5);
+if(monstrin) vida				= 2;
 
 
 //paisana
@@ -51,6 +52,22 @@ idle							= spr_monstro;
 run								= spr_monstro;
 jump							= spr_monstro;
 attack							= spr_monstro;
+	
+if(escala)
+{
+	idle							= spr_monstro;
+	run								= spr_monstro;
+	jump							= spr_monstro;
+	attack							= spr_monstro;
+}
+if(monstrin)
+{
+	idle							= spr_player;
+	run								= spr_player;
+	jump							= spr_player;
+	attack							= spr_player;
+	grav							= 3;
+}
 
 image_speed						= 0;
 skin							= function(_skin, _speed = 0)
@@ -360,11 +377,37 @@ estado_ostil					= function()
 				if(image_index >= image_number -2)
 				{
 					//atack aqui
-					image_xscale = 3;
+					if(monstrin)
+					{
+						if(instance_exists(obj_player))
+						{
+							var _p = obj_player;
+							
+							if(x <= _p)
+							{
+								face = 0;
+								velh = 3;
+								velv = -4;
+							}
+							else
+							{
+								face = 1;
+								velh = -3;
+								velv = -4;
+							}
+							
+						}
+
+					}
+					else image_xscale = 3;
 				}
 				
 				if(image_index >= image_number)
 				{
+					if(monstrin)
+					{
+						velv+=grav;
+					}
 					//resetando
 					dl_at	= irandom_range(30, 60);
 					tp_at	= 0;
@@ -454,7 +497,16 @@ estado_vazio					= function()
 	}
 	
 }
-
+morte							= function()
+{
+	var _p1				= instance_create_layer(x, y, "Esporos", obj_particula);
+	_p1.image_speed		= .5;
+	_p1.image_blend		= c_lime;
+	_p1.image_alpha		= .2;
+	_p1.vspeed			= -.7;
+	screenshake(2);
+	instance_destroy();
+}
 
 #region Monstro que escala
 #endregion
