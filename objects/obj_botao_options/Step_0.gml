@@ -16,32 +16,32 @@ tp++;
 
 if(musica and save)
 {
-	if(global.musica	<= .0)b_barra = 225;
-	if(global.musica	= .1)b_barra = 235;
-	if(global.musica	= .2)b_barra = 240;
-	if(global.musica	= .3)b_barra = 245;
-	if(global.musica	= .4)b_barra = 250;
-	if(global.musica	= .5)b_barra = 255;
-	if(global.musica	= .6)b_barra = 260;
-	if(global.musica	= .7)b_barra = 265;
-	if(global.musica	= .8)b_barra = 270;
-	if(global.musica	= .9)b_barra = 275;
-	if(global.musica	>= 1) b_barra = 280;
+	if(global.musica	<= .0)b_barra = 225+cam_x;
+	if(global.musica	= .1)b_barra = 235+cam_x;
+	if(global.musica	= .2)b_barra = 240+cam_x;
+	if(global.musica	= .3)b_barra = 245+cam_x;
+	if(global.musica	= .4)b_barra = 250+cam_x;
+	if(global.musica	= .5)b_barra = 255+cam_x;
+	if(global.musica	= .6)b_barra = 260+cam_x;
+	if(global.musica	= .7)b_barra = 265+cam_x;
+	if(global.musica	= .8)b_barra = 270+cam_x;
+	if(global.musica	= .9)b_barra = 275+cam_x;
+	if(global.musica	>= 1) b_barra = 280+cam_x;
 	save				= false;
 }
 if(sons and save)
 {
-	if(global.som	<= .0)b_barra = 225;
-	if(global.som	= .1)b_barra = 235;
-	if(global.som	= .2)b_barra = 240;
-	if(global.som	= .3)b_barra = 245;
-	if(global.som	= .4)b_barra = 250;
-	if(global.som	= .5)b_barra = 255;
-	if(global.som	= .6)b_barra = 260;
-	if(global.som	= .7)b_barra = 265;
-	if(global.som	= .8)b_barra = 270;
-	if(global.som	= .9)b_barra = 275;
-	if(global.som	>= 1) b_barra = 280;
+	if(global.som	<= .0)b_barra = 225+cam_x;
+	if(global.som	= .1)b_barra = 235+cam_x;
+	if(global.som	= .2)b_barra = 240+cam_x;
+	if(global.som	= .3)b_barra = 245+cam_x;
+	if(global.som	= .4)b_barra = 250+cam_x;
+	if(global.som	= .5)b_barra = 255+cam_x;
+	if(global.som	= .6)b_barra = 260+cam_x;
+	if(global.som	= .7)b_barra = 265+cam_x;
+	if(global.som	= .8)b_barra = 270+cam_x;
+	if(global.som	= .9)b_barra = 275+cam_x;
+	if(global.som	>= 1) b_barra = 280+cam_x;
 	save				= false;
 }
 
@@ -74,17 +74,17 @@ if(musica)
 	if(global.idioma) cube_x = 30;
 	else cube_x			= 25;
 	//show_message(b_barra);
-	if(b_barra <= 230) global.musica	= .0;
-	if(b_barra = 235) global.musica		= .1;
-	if(b_barra = 240) global.musica		= .2;
-	if(b_barra = 245) global.musica		= .3;
-	if(b_barra = 250) global.musica		= .4;
-	if(b_barra = 255) global.musica		= .5;
-	if(b_barra = 260) global.musica		= .6;
-	if(b_barra = 265) global.musica		= .7;
-	if(b_barra = 270) global.musica		= .8;
-	if(b_barra = 275) global.musica		= .9;
-	if(b_barra >= 280) global.musica	= 1;
+	if(b_barra <= 230+cam_x) global.musica	= .0;
+	if(b_barra = 235+cam_x) global.musica		= .1;
+	if(b_barra = 240+cam_x) global.musica		= .2;
+	if(b_barra = 245+cam_x) global.musica		= .3;
+	if(b_barra = 250+cam_x) global.musica		= .4;
+	if(b_barra = 255+cam_x) global.musica		= .5;
+	if(b_barra = 260+cam_x) global.musica		= .6;
+	if(b_barra = 265+cam_x) global.musica		= .7;
+	if(b_barra = 270+cam_x) global.musica		= .8;
+	if(b_barra = 275+cam_x) global.musica		= .9;
+	if(b_barra >= 280+cam_x) global.musica	= 1;
 
 }
 if(sons)
@@ -96,17 +96,17 @@ if(sons)
 	botaov			= 3;
 	if(global.idioma) cube_x = 30;
 	else cube_x			= 35;
-	if(b_barra <= 230) global.som	= .0;
-	if(b_barra = 235) global.som	= .1;
-	if(b_barra = 240) global.som	= .2;
-	if(b_barra = 245) global.som	= .3;
-	if(b_barra = 250) global.som	= .4;
-	if(b_barra = 255) global.som	= .5;
-	if(b_barra = 260) global.som	= .6;
-	if(b_barra = 265) global.som	= .7;
-	if(b_barra = 270) global.som	= .8;
-	if(b_barra = 275) global.som	= .9;
-	if(b_barra >= 280) global.som	= 1;
+	if(b_barra <= 230+cam_x) global.som	= .0;
+	if(b_barra = 235+cam_x) global.som	= .1;
+	if(b_barra = 240+cam_x) global.som	= .2;
+	if(b_barra = 245+cam_x) global.som	= .3;
+	if(b_barra = 250+cam_x) global.som	= .4;
+	if(b_barra = 255+cam_x) global.som	= .5;
+	if(b_barra = 260+cam_x) global.som	= .6;
+	if(b_barra = 265+cam_x) global.som	= .7;
+	if(b_barra = 270+cam_x) global.som	= .8;
+	if(b_barra = 275+cam_x) global.som	= .9;
+	if(b_barra >= 280+cam_x) global.som	= 1;
 }
 if(screen)
 {
@@ -188,8 +188,8 @@ if(musica and ativo)
 	//Mudando a musica
 	//if(global.left and global.musica>0)global.musica-=.1;
 	//if(global.right and global.musica<1)global.musica+=.1;
-	if(tp>dl and global.left and b_barra>225){b_barra-=5;  tp = 0;}
-	if(tp>dl and global.right and b_barra<285){b_barra+=5; tp = 0;}
+	if(tp>dl and global.left and b_barra>225+cam_x){b_barra-=5;  tp = 0;}
+	if(tp>dl and global.right and b_barra<285+cam_x){b_barra+=5; tp = 0;}
 }
 //se eu to clicado no som
 if(sons and ativo)
@@ -199,8 +199,8 @@ if(sons and ativo)
 	//Mudando o som
 	//if(global.left and global.som>0)global.som-=.1;
 	//if(global.right and global.som<1)global.som+=.1;
-	if(tp>dl and global.left and b_barra>225){b_barra-=5;  tp = 0;}
-	if(tp>dl and global.right and b_barra<285){b_barra+=5; tp = 0;}
+	if(tp>dl and global.left and b_barra>225+cam_x){b_barra-=5;  tp = 0;}
+	if(tp>dl and global.right and b_barra<285+cam_x){b_barra+=5; tp = 0;}
 	
 }
 
