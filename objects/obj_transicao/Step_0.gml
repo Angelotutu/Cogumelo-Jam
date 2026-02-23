@@ -1,6 +1,11 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
+if(instance_exists(obj_obrigatorio))
+{
+	cam_x = obj_obrigatorio.cam_x;
+	cam_y = obj_obrigatorio.cam_y;
+}
 
 if(xx>0 and vindo)xx-=vel_vindo;
 if(xx <= 0 and vindo)

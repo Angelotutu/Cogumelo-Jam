@@ -5,7 +5,12 @@
 //show_debug_message(qtd_pulos);
 
 //parando se for pause
-if(global.pause) exit;
+if(global.pause) 
+{
+	velh = 0;
+	velv = 0;
+	exit;
+}
 estado();
 
 //esporo

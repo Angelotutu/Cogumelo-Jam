@@ -24,10 +24,16 @@ if(instance_exists(obj_player))
 //limite da camera
 //cam_x = clamp(cam_x, 0, camera_get_view_width(view_camera[0])*max_cam_x);
 //cam_y = clamp(cam_y, 0, camera_get_view_height(view_camera[0])*max_cam_y);
-cam_x = clamp(cam_x, 0, camera_get_view_width(view_camera[0])*max_cam_x);
-cam_y = clamp(cam_y, 0, camera_get_view_height(view_camera[0])*max_cam_y);
 
-show_debug_message(cam_x)
+var cam = view_camera[0];
+var _x	= camera_get_view_x(cam)
+var _y	= camera_get_view_y(cam)
+// centro da área visível da câmera
+
+if(_x > 0) cam_x = _x;
+if(_y > 0) cam_y = _y;
+//show_message(_x)
+//show_debug_message(cam_x)
 //FPS
 fps_timer += delta_time;
 
