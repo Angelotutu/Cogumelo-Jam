@@ -119,7 +119,7 @@ if(screen)
 }
 
 
-if(musica) show_debug_message(b_barra);
+if(musica) //show_debug_message(b_barra);
 
 if(global.options)
 {

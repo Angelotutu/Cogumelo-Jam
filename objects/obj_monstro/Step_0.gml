@@ -27,7 +27,6 @@ if(manso)
 	else
 	{
 		estado					= estado_vazio;
-		//o player não esta em mim mais estou manso
 	}
 	
 }

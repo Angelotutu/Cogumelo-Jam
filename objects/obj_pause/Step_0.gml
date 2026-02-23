@@ -14,4 +14,4 @@ if(instance_exists(obj_obrigatorio))
 	
 }
 
-show_debug_message(global.options);
+//show_debug_message(global.options);
