@@ -4,7 +4,9 @@
   "name": "Muitos congus e poucos melos",
   "resources": [
     {"id":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},"order":3,},
+    {"id":{"name":"obj_monstro_marin","path":"objects/obj_monstro_marin/obj_monstro_marin.yy",},"order":17,},
     {"id":{"name":"obj_button_encaminha","path":"objects/obj_button_encaminha/obj_button_encaminha.yy",},"order":8,},
+    {"id":{"name":"obj_agua","path":"objects/obj_agua/obj_agua.yy",},"order":18,},
     {"id":{"name":"spr_player","path":"sprites/spr_player/spr_player.yy",},"order":16,},
     {"id":{"name":"spr_youtube","path":"sprites/spr_youtube/spr_youtube.yy",},"order":2,},
     {"id":{"name":"spr_monstrin","path":"sprites/spr_monstrin/spr_monstrin.yy",},"order":23,},
