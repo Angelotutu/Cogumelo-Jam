@@ -32,7 +32,7 @@ var _y	= camera_get_view_y(cam)
 
 if(_x > 0) cam_x = _x;
 if(_y > 0) cam_y = _y;
-show_debug_message(_x)
+//show_debug_message(_x)
 //show_debug_message(cam_x)
 //FPS
 fps_timer += delta_time;

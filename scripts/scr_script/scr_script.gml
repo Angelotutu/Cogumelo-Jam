@@ -27,7 +27,7 @@ global.shake				= 0;
 global.c_azul				= $FFA84A25;
 
 //vendo se estou controlando o monstro
-global.monstro				= false;
+//global.monstro				= false;
 
 //menus
 global.menu					= true;

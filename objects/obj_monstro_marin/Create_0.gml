@@ -8,9 +8,10 @@ velh							= 0;
 velv							= 0;
 //variaveis mudaveis
 grav							= 0;
-max_velh						= 1.5;
-max_velv						= 1.5;
+max_velh						= 3;
+max_velv						= 3;
 qtd_pulos						= 2;
+grav							= .05;
 //manso
 manso							= false;
 consumido						= false;
@@ -29,7 +30,7 @@ tp_t							= 0;
 cai								= false;
 
 //não é a vida em si mais é isso
-vida							= choose(3, 5);
+vida							= 1;
 
 
 //paisana
@@ -47,6 +48,10 @@ debug							= true;
 //attack
 dl_at							= irandom_range(30, 60);
 tp_at							= 0;
+
+//pulos
+dl_j							= 20;
+tp_j							= 0;
 
 //skins
 idle							= spr_monstro;
@@ -83,7 +88,7 @@ estado_parado					= function()
 	//fazendo o  personagem parar
 	velh						= 0;
 	//seu eu me mover 
-	if(global.left or global.right) estado = estado_movendo;
+	if(global.left or global.right or !velv = 0) estado = estado_movendo;
 	
 }
 estado_movendo					= function()
@@ -107,20 +112,25 @@ gravidade						= function()
 	
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
+	tp_j++;
 	//se eu to no chao e aperto pular ou se aperto pular e tenho um pulo extra
-	if((_chao and global.jump and !escala))// or (global.jump and qtd_pulos >=1))
+	if((tp_j >= dl_j and global.jump and manso))// or (global.jump and qtd_pulos >=1))
 	{
 		//gastando um pulo
 		qtd_pulos--;
 		//indo pra cima no pulo
-		velv = -max_velv;
+		velv	= -max_velv;
+		tp_j	=	0;
+		
 	}
-	else //se eu não posso pular
+	else if (!_chao and manso)//se eu não posso pular
 	{
 		//aplicando gravidade 
 		velv += grav;
 	}
+	else velv = 0;
 	
+	show_debug_message(velv);
 	//se estou no chão
 	if(_chao)
 	{
@@ -153,20 +163,6 @@ gravidade						= function()
 	
 	
 	#endregion
-	
-}
-estado_escalar					= function()
-{
-	txt_debug						= "Estado_escalar";
-	//chacando se tem aprede
-	var _parede				= place_meeting(x+1, y, obj_block) or place_meeting(x-1, y, obj_block);
-	//se não tiver parede volto a andar
-	if not(_parede) estado	= estado_parado;
-	
-	//aplicando velocidade vertical
-	velv = (global.down - global.up) * max_velv;
-	//aplicando velocidade horizontal
-	velh = (global.right - global.left) * max_velh;
 	
 }
 esporos							= function()
@@ -270,7 +266,7 @@ estado_paisana					= function()
 	var _chao					= place_meeting(x, y+1, obj_block);
 	if not(_chao)
 	{
-		velv	+= grav;
+		//velv	+= grav;
 		cai = false;
 	}
 	else
@@ -403,33 +399,33 @@ estado_ostil					= function()
 	}
 	
 	//chacando se to pisando no chao
-	//var _chao					= place_meeting(x, y+1, obj_block);
-	//if not(_chao)
-	//{
-	//	velv	+= grav;
-	//	cai = false;
-	//}
-	//else
-	//{
-	//	//se eu cai
-	//	if(!cai)
-	//	{
-	//		var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
-	//		var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
-	//		_p1.image_speed		= .5;
-	//		_p1.image_blend		= c_white;
-	//		_p1.image_alpha		= .2;
-	//		_p1.vspeed			= -1;
-	//		_p2.image_speed		= .5;
-	//		_p2.image_blend		= c_white;
-	//		_p2.image_alpha		= .2;
-	//		_p2.vspeed			= -1;
-	//		
-	//		screenshake(2);
-	//		cai					= true;
-	//	}
-	//	
-	//}
+	var _chao					= place_meeting(x, y+1, obj_block);
+	if not(_chao)
+	{
+		//velv	+= grav;
+		cai = false;
+	}
+	else
+	{
+		//se eu cai
+		if(!cai)
+		{
+			var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
+			var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
+			_p1.image_speed		= .5;
+			_p1.image_blend		= c_white;
+			_p1.image_alpha		= .2;
+			_p1.vspeed			= -1;
+			_p2.image_speed		= .5;
+			_p2.image_blend		= c_white;
+			_p2.image_alpha		= .2;
+			_p2.vspeed			= -1;
+			
+			screenshake(2);
+			cai					= true;
+		}
+		
+	}
 	
 }
 estado_vazio					= function()

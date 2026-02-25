@@ -14,7 +14,7 @@ if(manso)
 	//to manso
 	if(consumido)
 	{
-		grav					= 0.005;
+
 		//o player esta em mim	
 		
 
