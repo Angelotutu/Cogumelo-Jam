@@ -38,6 +38,9 @@ cab								= true;
 cab_index						= 0;
 dl_cab							= 6;
 tp_cab							= dl_cab;
+//entregas
+entrega							= true;
+vel_entregas					= 6;
 //fazendo a variavel pra soltar esporos
 
 //animações
@@ -72,7 +75,8 @@ estado_movendo					= function()
 	//definindo texto do estado
 	estado_text					= "Estado_Movendo";
 	//colocando a animação
-	anim(spr_player_run_cabeca, spr_player_run_corpo, 1);
+	if(entrega) anim(spr_player_run_away_cabeca, spr_player_run_away_corpo, 1);
+	else anim(spr_player_run_cabeca, spr_player_run_corpo, 1);
 	//aplicando gravidade
 	gravidade();
 	//chacando se to pisando no chao
@@ -91,7 +95,8 @@ estado_movendo					= function()
 		face	= 0;
 	}
 	//aplicando velocidade horizontal
-	velh = (global.right - global.left) * max_velh;
+	if(entrega) velh = (global.right - global.left) * vel_entregas;
+	else velh = (global.right - global.left) * max_velh;
 	//seu eu não me mover 
 	if(!global.left and !global.right) estado = estado_parado;
 }
@@ -103,6 +108,11 @@ gravidade						= function()
 	//se eu to no chao e aperto pular ou se aperto pular e tenho um pulo extra
 	if((_chao and global.jump)) //or (global.jump and qtd_pulos >=1))
 	{
+		//animando
+		if(cab)sprite_cabeca = spr_player_begin_jump_cabeca;
+		sprite_index = spr_player_begin_jump_corpo;
+		image_index = 0;
+		image_speed	= .3;
 		//efeito de squash squezze
 		squash(.5, 1.5);
 		//gastando um pulo
@@ -110,12 +120,32 @@ gravidade						= function()
 		//indo pra cima no pulo
 		velv = -max_velv;
 	}
-	else //se eu não posso pular
+	else if(!_chao) //se eu não posso pular
 	{
 		//aplicando gravidade 
 		velv += grav;
 		//colocando a animação
-		anim(, , , 0);
+		//anim(spr_player_falling_corpo, spr_player_falling_cabeca, .5, 0);
+		// Subindo
+		// Se ainda está na animação de início, espera terminar
+		if (velv < -1)
+		{
+		    if(cab)sprite_cabeca = spr_player_up_jump_cabeca;
+		    sprite_index = spr_player_up_jump_corpo;
+		}
+		// Transição (topo do pulo)
+		else if (abs(velv) <= 1)
+		{
+		    if(cab)sprite_cabeca = spr_player_begin_fall_cabeca;
+		    sprite_index = spr_player_begin_fall_corpo;
+		}
+		// Caindo
+		else if (velv > 1)
+		{
+		    if(cab)sprite_cabeca = spr_player_falling_cabeca;
+		    sprite_index = spr_player_falling_corpo;
+		}
+			
 	}
 	
 	//se estou no chão
@@ -278,6 +308,7 @@ anim							= function(_spr_cabeca = spr_player_idle_cabeca, _spr_corpo = spr_pla
 			if(cab)sprite_cabeca		= _spr_cabeca;
 		}
 	}
+	
 	
 	
 }

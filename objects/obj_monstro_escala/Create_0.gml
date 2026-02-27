@@ -52,7 +52,9 @@ idle							= spr_player_idle_corpo;
 run								= spr_player_run_corpo;
 jump							= spr_player_idle_corpo;
 attack							= spr_player_run_corpo;
-sprite_index					= idle;
+sprite							= idle;
+xscale							= 1;
+yscale							= 1;
 escala							= true;
 
 image_speed						= 0;
@@ -60,11 +62,16 @@ skin							= function(_skin = idle, _speed = .2, _grav = 1)
 {
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
-	if(_grav)
+	if(_grav = 2)
+	{
+		sprite				= _skin;
+		image_speed			= _speed;
+	}
+	else if(_grav)
 	{
 		if(_chao)
 		{
-			sprite_index		= _skin;
+			sprite				= _skin;
 			image_speed			= _speed;
 		}
 		
@@ -73,7 +80,7 @@ skin							= function(_skin = idle, _speed = .2, _grav = 1)
 	{
 		if(!_chao)
 		{
-			sprite_index		= _skin;
+			sprite				= _skin;
 			image_speed			= _speed;
 		}
 	}
@@ -104,10 +111,13 @@ estado_movendo					= function()
 	if(global.right) face		= true;
 	else if(global.left) face	= 0;
 	
+	if(face)xscale = 1;
+	else xscale = -1;
+	
 	//aplicando velocidade horizontal
 	velh = (global.right - global.left) * max_velh;
 	//seu eu não me mover 
-	if not(global.left and global.right) estado = estado_parado;
+	if (!global.left and !global.right) estado = estado_parado;
 }
 gravidade						= function()
 {
@@ -171,11 +181,14 @@ estado_escalar					= function()
 	var _parede				= place_meeting(x+1, y, obj_block) or place_meeting(x-1, y, obj_block);
 	//se não tiver parede volto a andar
 	if not(_parede) estado	= estado_parado;
-	
+
 	//aplicando velocidade vertical
 	velv = (global.down - global.up) * max_velv;
 	//aplicando velocidade horizontal
 	velh = (global.right - global.left) * max_velh;
+	
+	if(velv < 0 and velv > 0) skin(run,.4,2);
+	else skin(,, 2);
 	
 }
 esporos							= function()
@@ -226,6 +239,27 @@ estado_trombada					= function()
 estado_paisana					= function()
 {
 	txt_debug						= "Estado_paisana";
+	if(velh > 0)
+	{
+		//colocando a skin
+		skin(run, .4);
+		//virando
+		xscale = 1;
+	}
+	else if(velh < 0)
+	{
+		//colocando a skin
+		skin(run, .4);
+		//virando
+		xscale = -1;
+	}
+	else
+	{
+		//colocando a skin
+		skin();
+
+	}
+	
 	//vendo a distancia minha e do player
 	if(instance_exists(obj_player))
 	{
@@ -238,26 +272,11 @@ estado_paisana					= function()
 			skin(attack, .2);
 			estado = estado_ostil;
 		}
-		else
-		{
-			if(velh>0 or velh<0)
-			{
-				//colocando a skin
-				skin(attack, .5);
-			}
-			else
-			{
-				//colocando a skin
-				skin();
-			}
-			
-		}
-		
 		
 	}
 	
 	//se eu me movimento
-	if(velh > 0 or velh < 0) skin(idle);
+	//if(velh > 0 or velh < 0) skin(idle);
 	//aumentando o tempo de paisana
 	tp_a++;
 	//se o tempo for maior que o delay
@@ -332,6 +351,7 @@ estado_ostil					= function()
 {
 	txt_debug						= "Estado_ostil";
 	
+	
 	//se eu to manso
 	if(manso) estado = estado_vazio;
 	
@@ -345,8 +365,13 @@ estado_ostil					= function()
 		//se a distancia for maior que minha distancia vou pro estado paisana
 		if(_dis > dis)
 		{
+			//colocando a skin
+			skin();
+			//virando
+			xscale = 1;
 			velh = 0;
 			estado = estado_paisana;
+			
 		}
 		
 		//se a distancia for maior que a distancia minima
@@ -360,7 +385,10 @@ estado_ostil					= function()
 				image_xscale = 1;
 				velh = 1;
 				//se tiver uma parede na minha frente eu vou pra tras 		//se não tiver chao na minha frente eu vou pra tras
-			
+				//colocando a skin
+				skin(run, .4);
+				//virando
+				xscale = 1;
 				
 			}
 			else
@@ -368,12 +396,14 @@ estado_ostil					= function()
 				//viro pra direita
 				image_xscale = -1;
 				velh = -1;
+				//colocando a skin
+				skin(run, .4);
+				//virando
+				xscale = -1;
 			
 									
 				
 			}
-			
-			skin(idle);
 			//image_speed = 0;
 			//image_index = 0;
 			//image_xscale = 1;
@@ -384,6 +414,7 @@ estado_ostil					= function()
 		{
 			//eu paro e ataco
 			velh	= 0;
+			sprite	= attack;
 			tp_at++;
 			if(tp_at>=dl_at)
 			{
@@ -393,6 +424,7 @@ estado_ostil					= function()
 				{
 					//atack aqui
 					image_xscale = 3;
+					
 				}
 				
 				if(image_index >= image_number)
@@ -400,8 +432,7 @@ estado_ostil					= function()
 					//resetando
 					dl_at	= irandom_range(30, 60);
 					tp_at	= 0;
-					sprite_index = run;
-					
+							
 				}
 				
 				

@@ -78,7 +78,7 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "Player",
-    "path": "folders/Sprites/Player.yy",
+    "name": "cabeca",
+    "path": "folders/Sprites/Player/cabeca.yy",
   },
 }

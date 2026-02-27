@@ -65,6 +65,8 @@ else
 	
 }
 
+if(cab) cab_index = image_index;
+
 //fazendo o efeito de squash squezze
 if(face) ld = 1;
 else ld = -1;
