@@ -2,7 +2,10 @@
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
   "name": "oLocalEntrega",
-  "spriteId": null,
+  "spriteId": {
+    "name": "sLocalEntrega",
+    "path": "sprites/sLocalEntrega/sLocalEntrega.yy",
+  },
   "solid": false,
   "visible": true,
   "managed": true,

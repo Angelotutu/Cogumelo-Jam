@@ -39,7 +39,7 @@ cab_index						= 0;
 dl_cab							= 6;
 tp_cab							= dl_cab;
 //entregas
-entrega							= true;
+entrega							= false;
 vel_entregas					= 6;
 //fazendo a variavel pra soltar esporos
 

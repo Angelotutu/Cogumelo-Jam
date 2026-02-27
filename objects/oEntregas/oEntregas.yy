@@ -2,7 +2,10 @@
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
   "name": "oEntregas",
-  "spriteId": null,
+  "spriteId": {
+    "name": "sBancaEntregas",
+    "path": "sprites/sBancaEntregas/sBancaEntregas.yy",
+  },
   "solid": false,
   "visible": true,
   "managed": true,
