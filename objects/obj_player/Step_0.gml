@@ -22,6 +22,7 @@ if(ativo_esporo)
 	tp_ec = 0;
 	esporo();
 }
+
 //se minha quantidade de esporos for negativa
 if(qtd_esporo <= 0)
 {
@@ -37,3 +38,39 @@ if(qtd_esporo <= 0)
 	}
 	
 }
+
+if(pode_esporo)
+{
+	//cab			= true;
+	tp_cab		= dl_cab;
+	cab_index	= image_index;
+}
+else
+{
+	if(!cab)
+	{
+		tp_cab++;
+		if(tp_cab>=dl_cab)
+		{
+			cab_index++;
+			tp_cab	= 0;
+		}
+		if(cab_index>=3)
+		{
+			cab		= true;
+			tp_cab	= 0;
+		}
+		
+	}
+	
+}
+
+//fazendo o efeito de squash squezze
+if(face) ld = 1;
+else ld = -1;
+
+tamx				= lerp(tamx, image_xscale, squezze);
+tamy				= lerp(tamy, image_xscale, squezze);
+
+xscale				= tamx*ld
+yscale				= tamy;

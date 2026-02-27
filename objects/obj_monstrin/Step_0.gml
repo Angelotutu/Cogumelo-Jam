@@ -10,12 +10,20 @@ if(global.pause)
 
 if(manso)
 {
-	estado = morte;
+	if not(consumido)
+	{
+		estado = estado_vazio;
+	}
+	
 }
 else
 {
 	//se minha vida for menor ou 0 eu fico manso
-	if(vida<=0) manso = true;
+	if(vida<=0)
+	{
+		estado = estado_parado;
+		manso = true;
+	}
 	
 }
 

@@ -2,7 +2,8 @@
 // Você pode escrever seu código neste editor
 
 
-
+//
+blend							= c_green;
 //variaveis necessarias
 velh							= 0;
 velv							= 0;
@@ -47,39 +48,45 @@ dl_at							= irandom_range(30, 60);
 tp_at							= 0;
 
 //skins
-idle							= spr_monstro;
-run								= spr_monstro;
-jump							= spr_monstro;
-//attack							= spr_monstro;
+idle							= spr_player_idle_corpo;
+run								= spr_player_run_corpo;
+jump							= spr_player_idle_corpo;
+attack							= spr_player_run_corpo;
+sprite_index					= idle;
 escala							= true;
 
 image_speed						= 0;
-skin							= function(_skin, _speed = 0)
+skin							= function(_skin = idle, _speed = .2, _grav = 1)
 {
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
-	if not(_chao) sprite_index	= jump;
-	else sprite_index			= _skin;
-	image_speed					= _speed;
-	image_xscale				= 1;
+	if(_grav)
+	{
+		if(_chao)
+		{
+			sprite_index		= _skin;
+			image_speed			= _speed;
+		}
+		
+	}
+	else
+	{
+		if(!_chao)
+		{
+			sprite_index		= _skin;
+			image_speed			= _speed;
+		}
+	}
 
 	
 }
-
-//estado_paisana					= function()
-//{
-//	//susegando
-//	vel
-//}
-
-
 estado_parado					= function()
 {
 	txt_debug						= "Estado_parado";
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
-	skin(idle);
+	skin();
 	//fazendo o  personagem parar
 	velh						= 0;
 	//seu eu me mover 
@@ -92,7 +99,7 @@ estado_movendo					= function()
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
-	skin(run);
+	skin(run, .5);
 	//vendo a face
 	if(global.right) face		= true;
 	else if(global.left) face	= 0;
@@ -107,6 +114,8 @@ gravidade						= function()
 	
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
+	//colocando a skin
+	skin(jump, 0, 0);
 	//se eu to no chao e aperto pular ou se aperto pular e tenho um pulo extra
 	if((_chao and global.jump and !escala))// or (global.jump and qtd_pulos >=1))
 	{
@@ -223,7 +232,27 @@ estado_paisana					= function()
 		var _dis = point_distance(x, y, obj_player.x, obj_player.y);	
 		
 		//se for menor que minha distancia vou pro estado ostil
-		if(_dis <= dis) estado = estado_ostil;
+		if(_dis <= dis)
+		{
+			//colocando a skin
+			skin(attack, .2);
+			estado = estado_ostil;
+		}
+		else
+		{
+			if(velh>0 or velh<0)
+			{
+				//colocando a skin
+				skin(attack, .5);
+			}
+			else
+			{
+				//colocando a skin
+				skin();
+			}
+			
+		}
+		
 		
 	}
 	
@@ -270,6 +299,8 @@ estado_paisana					= function()
 	var _chao					= place_meeting(x, y+1, obj_block);
 	if not(_chao)
 	{
+		//colocando a skin
+		skin(jump, 0, 0);
 		velv	+= grav;
 		cai = false;
 	}
@@ -369,7 +400,7 @@ estado_ostil					= function()
 					//resetando
 					dl_at	= irandom_range(30, 60);
 					tp_at	= 0;
-					sprite_index = idle;
+					sprite_index = run;
 					
 				}
 				
@@ -427,6 +458,8 @@ estado_vazio					= function()
 	var _chao					= place_meeting(x, y+1, obj_block);
 	if not(_chao)
 	{
+		//colocando a skin
+		skin(jump, 0, 0);
 		velv	+= grav;
 		cai = false;
 	}

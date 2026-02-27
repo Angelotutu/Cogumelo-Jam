@@ -3,8 +3,8 @@
   "resourceVersion": "1.0",
   "name": "obj_player",
   "spriteId": {
-    "name": "spr_player",
-    "path": "sprites/spr_player/spr_player.yy",
+    "name": "spr_player_idle_corpo",
+    "path": "sprites/spr_player_idle_corpo/spr_player_idle_corpo.yy",
   },
   "solid": false,
   "visible": true,
@@ -31,6 +31,8 @@
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":4,"collisionObjectId":{"name":"obj_monstro_escala","path":"objects/obj_monstro_escala/obj_monstro_escala.yy",},},
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":4,"collisionObjectId":{"name":"obj_agua","path":"objects/obj_agua/obj_agua.yy",},},
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":4,"collisionObjectId":{"name":"obj_monstro_marin","path":"objects/obj_monstro_marin/obj_monstro_marin.yy",},},
+    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,},
+    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":4,"collisionObjectId":{"name":"obj_monstrin","path":"objects/obj_monstrin/obj_monstrin.yy",},},
   ],
   "properties": [
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"lup","varType":3,"value":"True","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],},

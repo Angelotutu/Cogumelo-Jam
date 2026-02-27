@@ -8,8 +8,8 @@ velh							= 0;
 velv							= 0;
 //variaveis mudaveis
 grav							= 0.2;
-max_velh						= 1.5;
-max_velv						= 1.5;
+max_velh						= 2;
+max_velv						= 6;
 qtd_pulos						= 2;
 //manso
 manso							= false;
@@ -76,6 +76,8 @@ skin							= function(_skin, _speed = 0)
 estado_parado					= function()
 {
 	txt_debug						= "Estado_parado";
+	//chacando se to pisando no chao
+	var _chao					= place_meeting(x, y+1, obj_block);
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
@@ -83,12 +85,14 @@ estado_parado					= function()
 	//fazendo o  personagem parar
 	velh						= 0;
 	//seu eu me mover 
-	if(global.left or global.right) estado = estado_movendo;
+	if((global.left or global.right) and !_chao) estado = estado_movendo;
 	
 }
 estado_movendo					= function()
 {
 	txt_debug						= "Estado_movendo";
+	//chacando se to pisando no chao
+	var _chao					= place_meeting(x, y+1, obj_block);
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
@@ -100,7 +104,7 @@ estado_movendo					= function()
 	//aplicando velocidade horizontal
 	velh = (global.right - global.left) * max_velh;
 	//seu eu não me mover 
-	if not(global.left and global.right) estado = estado_parado;
+	if((!global.left and !global.right) or _chao) estado = estado_parado;
 }
 gravidade						= function()
 {
@@ -108,7 +112,7 @@ gravidade						= function()
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
 	//se eu to no chao e aperto pular ou se aperto pular e tenho um pulo extra
-	if((_chao and global.jump and !escala))// or (global.jump and qtd_pulos >=1))
+	if((_chao and global.jump))// or (global.jump and qtd_pulos >=1))
 	{
 		//gastando um pulo
 		qtd_pulos--;
