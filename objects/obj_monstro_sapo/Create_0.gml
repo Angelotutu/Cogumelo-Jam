@@ -133,7 +133,7 @@ estado_movendo					= function()
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
-	skin(run);
+	//skin(run);
 	//vendo a face
 	if(global.right) face		= true;
 	else if(global.left) face	= 0;

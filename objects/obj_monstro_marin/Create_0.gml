@@ -57,6 +57,10 @@ tp_j							= 0;
 idle							= spr_monstro;
 run								= spr_monstro;
 jump							= spr_monstro;
+sprite							= idle;
+blend							= c_aqua;
+xscale							= 1;
+yscale							= 1;
 
 image_speed						= 0;
 skin							= function(_skin, _speed = 0)

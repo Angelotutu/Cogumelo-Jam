@@ -226,7 +226,33 @@ estado_trombada					= function()
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
 	//se eu não estou no chao desço rapido
-	if not(_chao)velv		+=.5;
+	if not(_chao)
+	{
+		//aplicando gravidade 
+		velv += .5;
+		//colocando a animação
+		//anim(spr_player_falling_corpo, spr_player_falling_cabeca, .5, 0);
+		// Subindo
+		// Se ainda está na animação de início, espera terminar
+		if (velv < -1)
+		{
+		    if(cab)sprite_cabeca = spr_player_up_jump_cabeca;
+		    sprite_index = spr_player_up_jump_corpo;
+		}
+		// Transição (topo do pulo)
+		else if (abs(velv) <= 1)
+		{
+		    if(cab)sprite_cabeca = spr_player_begin_fall_cabeca;
+		    sprite_index = spr_player_begin_fall_corpo;
+		}
+		// Caindo
+		else if (velv > 1)
+		{
+		    if(cab)sprite_cabeca = spr_player_falling_cabeca;
+		    sprite_index = spr_player_falling_corpo;
+		}
+		
+	}
 	//aumentando o tp pra me mover
 	tp_t++;
 	if(tp_t>=dl_t or _chao) //se eu estou no chao ou ja posso me mocer
