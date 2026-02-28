@@ -2,14 +2,15 @@
 // Você pode escrever seu código neste editor
 
 
-
+//
+blend							= c_green;
 //variaveis necessarias
 velh							= 0;
 velv							= 0;
 //variaveis mudaveis
-grav							= 0.2;
-max_velh						= 2;
-max_velv						= 6;
+grav							= 0.5;
+max_velh						= 1.5;
+max_velv						= 1.5;
 qtd_pulos						= 2;
 //manso
 manso							= false;
@@ -29,7 +30,7 @@ tp_t							= 0;
 cai								= false;
 
 //não é a vida em si mais é isso
-vida							= 2;
+vida							= choose(3, 5);
 
 
 //paisana
@@ -39,7 +40,7 @@ mov								= false;
 
 //ostil
 dis								= 150;
-dis_min							= 150;
+dis_min							= 50;
 debug							= true;
 
 //attack
@@ -47,72 +48,86 @@ dl_at							= irandom_range(30, 60);
 tp_at							= 0;
 
 //skins
-idle							= spr_monstrin;
-run								= spr_monstrin;
-jump							= spr_monstrin;
-//attack							= spr_monstro;
+idle							= spr_player_idle_corpo;
+run								= spr_player_run_corpo;
+jump							= spr_player_idle_corpo;
+attack							= spr_player_run_corpo;
+sprite							= idle;
+xscale							= 1;
+yscale							= 1;
 escala							= true;
 
 image_speed						= 0;
-skin							= function(_skin, _speed = 0)
+skin							= function(_skin = idle, _speed = .2, _grav = 1)
 {
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
-	if not(_chao) sprite_index	= jump;
-	else sprite_index			= _skin;
-	image_speed					= _speed;
-	image_xscale				= 1;
+	if(_grav = 2)
+	{
+		sprite				= _skin;
+		image_speed			= _speed;
+	}
+	else if(_grav)
+	{
+		if(_chao)
+		{
+			sprite				= _skin;
+			image_speed			= _speed;
+		}
+		
+	}
+	else
+	{
+		if(!_chao)
+		{
+			sprite				= _skin;
+			image_speed			= _speed;
+		}
+	}
 
 	
 }
-
-//estado_paisana					= function()
-//{
-//	//susegando
-//	vel
-//}
-
-
 estado_parado					= function()
 {
 	txt_debug						= "Estado_parado";
-	//chacando se to pisando no chao
-	var _chao					= place_meeting(x, y+1, obj_block);
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
-	skin(idle);
+	skin();
 	//fazendo o  personagem parar
 	velh						= 0;
 	//seu eu me mover 
-	if((global.left or global.right) and !_chao) estado = estado_movendo;
+	if(global.left or global.right) estado = estado_movendo;
 	
 }
 estado_movendo					= function()
 {
 	txt_debug						= "Estado_movendo";
-	//chacando se to pisando no chao
-	var _chao					= place_meeting(x, y+1, obj_block);
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
-	skin(run);
+	skin(run, .5);
 	//vendo a face
 	if(global.right) face		= true;
 	else if(global.left) face	= 0;
 	
+	if(face)xscale = 1;
+	else xscale = -1;
+	
 	//aplicando velocidade horizontal
 	velh = (global.right - global.left) * max_velh;
 	//seu eu não me mover 
-	if((!global.left and !global.right) or _chao) estado = estado_parado;
+	if (!global.left and !global.right) estado = estado_parado;
 }
 gravidade						= function()
 {
 	
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
+	//colocando a skin
+	skin(jump, 0, 0);
 	//se eu to no chao e aperto pular ou se aperto pular e tenho um pulo extra
-	if((_chao and global.jump))// or (global.jump and qtd_pulos >=1))
+	if((_chao and global.jump and !escala))// or (global.jump and qtd_pulos >=1))
 	{
 		//gastando um pulo
 		qtd_pulos--;
@@ -166,11 +181,14 @@ estado_escalar					= function()
 	var _parede				= place_meeting(x+1, y, obj_block) or place_meeting(x-1, y, obj_block);
 	//se não tiver parede volto a andar
 	if not(_parede) estado	= estado_parado;
-	
+
 	//aplicando velocidade vertical
 	velv = (global.down - global.up) * max_velv;
 	//aplicando velocidade horizontal
 	velh = (global.right - global.left) * max_velh;
+	
+	if(global.down or global.up) skin(run,.4,2);
+	else skin(,, 2);
 	
 }
 esporos							= function()
@@ -221,13 +239,78 @@ estado_trombada					= function()
 estado_paisana					= function()
 {
 	txt_debug						= "Estado_paisana";
+	if(velh > 0)
+	{
+		//colocando a skin
+		skin(run, .4);
+		//virando
+		xscale = 1;
+	}
+	else if(velh < 0)
+	{
+		//colocando a skin
+		skin(run, .4);
+		//virando
+		xscale = -1;
+	}
+	else
+	{
+		//colocando a skin
+		skin();
+
+	}
+	
 	//vendo a distancia minha e do player
 	if(instance_exists(obj_player))
 	{
 		var _dis = point_distance(x, y, obj_player.x, obj_player.y);	
 		
 		//se for menor que minha distancia vou pro estado ostil
-		if(_dis <= dis) estado = estado_ostil;
+		if(_dis <= dis)
+		{
+			//colocando a skin
+			skin(attack, .2);
+			estado = estado_ostil;
+		}
+		
+	}
+	
+	//se eu me movimento
+	//if(velh > 0 or velh < 0) skin(idle);
+	//aumentando o tempo de paisana
+	tp_a++;
+	//se o tempo for maior que o delay
+	if(tp_a>=dl_a)
+	{
+		velh							= 0;
+		mov								= choose(0, 1);
+		face							= choose(0, 1);
+		//reseto o tempo
+		dl_a							= irandom_range(10, 120);
+		tp_a							= 0;
+	}
+	
+	////se eu to virado pra direita
+	if(face)
+	{
+		//viro pra direita
+		image_xscale = 1;
+		if(mov) velh = 1;
+		//se tiver uma parede na minha frente eu vou pra tras
+		if(place_meeting(x+2, y, obj_block)) face = 0;
+		//se não tiver chao na minha frente eu vou pra tras
+		if not(place_meeting(x+5, y+5, obj_block)) face = 0;
+		
+	}
+	else
+	{
+		//viro pra direita
+		image_xscale = -1;
+		if(mov) velh = -1;
+		//se tiver uma parede na minha frente eu vou pra tras
+		if(place_meeting(x-2, y, obj_block)) face = 1;
+		//se não tiver chao na minha frente eu vou pra tras
+		if not(place_meeting(x-5, y+5, obj_block)) face = 1;
 		
 	}
 	
@@ -235,14 +318,13 @@ estado_paisana					= function()
 	var _chao					= place_meeting(x, y+1, obj_block);
 	if not(_chao)
 	{
-		if(face) velh = 1;
-		else velh = -1;
+		//colocando a skin
+		skin(jump, 0, 0);
 		velv	+= grav;
 		cai = false;
 	}
 	else
 	{
-		velh = 0;
 		//se eu cai
 		if(!cai)
 		{
@@ -259,81 +341,9 @@ estado_paisana					= function()
 			
 			screenshake(2);
 			cai					= true;
-			
 		}
-		face				= !face;
-		velv				= -4;
+		
 	}
-	
-	#region inacessivel
-	////se eu me movimento
-	//if(velh > 0 or velh < 0) skin(idle);
-	////aumentando o tempo de paisana
-	//tp_a++;
-	////se o tempo for maior que o delay
-	//if(tp_a>=dl_a)
-	//{
-	//	velh							= 0;
-	//	mov								= choose(0, 1);
-	//	face							= choose(0, 1);
-	//	//reseto o tempo
-	//	dl_a							= irandom_range(10, 120);
-	//	tp_a							= 0;
-	//}
-	//
-	//////se eu to virado pra direita
-	//if(face)
-	//{
-	//	//viro pra direita
-	//	image_xscale = 1;
-	//	if(mov) velh = 1;
-	//	//se tiver uma parede na minha frente eu vou pra tras
-	//	if(place_meeting(x+2, y, obj_block)) face = 0;
-	//	//se não tiver chao na minha frente eu vou pra tras
-	//	if not(place_meeting(x+5, y+5, obj_block)) face = 0;
-	//	
-	//}
-	//else
-	//{
-	//	//viro pra direita
-	//	image_xscale = -1;
-	//	if(mov) velh = -1;
-	//	//se tiver uma parede na minha frente eu vou pra tras
-	//	if(place_meeting(x-2, y, obj_block)) face = 1;
-	//	//se não tiver chao na minha frente eu vou pra tras
-	//	if not(place_meeting(x-5, y+5, obj_block)) face = 1;
-	//	
-	//}
-	//
-	////chacando se to pisando no chao
-	//var _chao					= place_meeting(x, y+1, obj_block);
-	//if not(_chao)
-	//{
-	//	velv	+= grav;
-	//	cai = false;
-	//}
-	//else
-	//{
-	//	//se eu cai
-	//	if(!cai)
-	//	{
-	//		var _p1				= instance_create_layer(x-8, y, "Esporos", obj_particula);
-	//		var _p2				= instance_create_layer(x+8, y, "Esporos", obj_particula);
-	//		_p1.image_index		= 3;
-	//		_p1.image_speed		= .5;
-	//		_p1.image_blend		= c_white;
-	//		_p1.image_alpha		= .2;
-	//		_p1.vspeed			= -1;
-	//		_p2.image_index		= 3;
-	//		_p2.image_speed		= .5;
-	//		_p2.image_blend		= c_white;
-	//		_p2.image_alpha		= .2;
-	//		_p2.vspeed			= -1;
-	//		
-	//		cai					= true;
-	//	}
-	//}
-	#endregion
 	
 	
 }
@@ -341,8 +351,9 @@ estado_ostil					= function()
 {
 	txt_debug						= "Estado_ostil";
 	
+	
 	//se eu to manso
-	if(manso) estado = morte;
+	if(manso) estado = estado_vazio;
 	
 	//se o player existe
 	if(instance_exists(obj_player))
@@ -351,56 +362,77 @@ estado_ostil					= function()
 		var _p = obj_player;
 		//pego a minha distancia
 		var _dis = point_distance(x, y, _p.x, _p.y);			
-		if(_dis > dis_min) estado = estado_paisana;
+		//se a distancia for maior que minha distancia vou pro estado paisana
+		if(_dis > dis)
+		{
+			//colocando a skin
+			skin();
+			//virando
+			xscale = 1;
+			velh = 0;
+			estado = estado_paisana;
+			
+		}
+		
+		//se a distancia for maior que a distancia minima
+		if(_dis > dis_min)
+		{
+			
+			////se eu to virado pra direita
+			if(x <= _p.x)
+			{
+				//viro pra direita
+				image_xscale = 1;
+				velh = 1;
+				//se tiver uma parede na minha frente eu vou pra tras 		//se não tiver chao na minha frente eu vou pra tras
+				//colocando a skin
+				skin(run, .4);
+				//virando
+				xscale = 1;
+				
+			}
+			else
+			{
+				//viro pra direita
+				image_xscale = -1;
+				velh = -1;
+				//colocando a skin
+				skin(run, .4);
+				//virando
+				xscale = -1;
+			
+									
+				
+			}
+			//image_speed = 0;
+			//image_index = 0;
+			//image_xscale = 1;
+			
+		}
+		
 		if(_dis <= dis_min or tp_at>1) //or sprite_index == attack)//se não for maior
 		{
 			//eu paro e ataco
 			velh	= 0;
+			sprite	= attack;
 			tp_at++;
 			if(tp_at>=dl_at)
 			{
 				//attack
-				
-				if(image_index = image_number -1)
+				image_speed = 0.4;
+				if(image_index >= image_number -2)
 				{
-
 					//atack aqui
-					if(instance_exists(obj_player))
-					{
-						var _p		= obj_player;
-						if(x <= _p.x)
-						{
-							face	= true;
-							velh	= 0;
-						}
-						else 
-						{
-							face	= 0;
-							velh	= 0;
-						}
-						velv		= -5;
-						//show_message(0)
-					}
+					image_xscale = 3;
 					
 				}
 				
-				if(image_index = image_number -2)
-				{
-					//if(face) velh = 2;
-					//else velh =2;
-					//velv+=grav;
-					var _chao						= place_meeting(x, y+1, obj_block);
-					if(_chao) image_speed	= 0.4;
-					else image_speed = 0;
-				}
-				else image_speed	= 0.4;
-				if(image_index = image_number)
+				if(image_index >= image_number)
 				{
 					//resetando
 					dl_at	= irandom_range(30, 60);
 					tp_at	= 0;
-					sprite_index = idle;
-					
+							
 				}
 				
 				
@@ -421,28 +453,11 @@ estado_ostil					= function()
 	var _chao					= place_meeting(x, y+1, obj_block);
 	if not(_chao)
 	{
-		if(instance_exists(obj_player))
-		{
-			var _p = obj_player;
-			var _dis = point_distance(x, y, _p.x, _p.y);
-			if(_dis < 40)
-			{
-				if(face) velh = .5;
-				else velh = -.5;
-			}
-			else
-			{
-				if(face) velh = 1;
-				else velh = -1;
-			}
-		}
-		
 		velv	+= grav;
 		cai = false;
 	}
 	else
 	{
-		velh = 0;
 		//se eu cai
 		if(!cai)
 		{
@@ -474,6 +489,8 @@ estado_vazio					= function()
 	var _chao					= place_meeting(x, y+1, obj_block);
 	if not(_chao)
 	{
+		//colocando a skin
+		skin(jump, 0, 0);
 		velv	+= grav;
 		cai = false;
 	}
@@ -482,34 +499,22 @@ estado_vazio					= function()
 		//se eu cai
 		if(!cai)
 		{
-			var _p1				= instance_create_layer(x-8, y, "Esporos", obj_particula);
-			var _p2				= instance_create_layer(x+8, y, "Esporos", obj_particula);
-			_p1.image_index		= 3;
+			var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
+			var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
 			_p1.image_speed		= .5;
 			_p1.image_blend		= c_white;
 			_p1.image_alpha		= .2;
 			_p1.vspeed			= -1;
-			_p2.image_index		= 3;
 			_p2.image_speed		= .5;
 			_p2.image_blend		= c_white;
 			_p2.image_alpha		= .2;
 			_p2.vspeed			= -1;
 			
+			screenshake(2);
 			cai					= true;
 		}
 	}
 	
-	
-}
-morte							= function()
-{
-	var _p1				= instance_create_layer(x, y, "Esporos", obj_particula);
-	_p1.image_speed		= .5;
-	_p1.image_blend		= c_lime;
-	_p1.image_alpha		= .2;
-	_p1.vspeed			= -1;
-	screenshake(1);
-	instance_destroy();
 	
 }
 

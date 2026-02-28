@@ -9,6 +9,7 @@ if(instance_exists(oUiEntregas) and global.estaComEntrega)
 	oUiEntregas.mode		= STATE_MODE.ENTREGOU;
 	oUiEntregas.timer		= 4;
 	entrega					= true;
+	
 }
 
 

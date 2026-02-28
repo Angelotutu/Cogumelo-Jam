@@ -1,7 +1,7 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "obj_monstrin",
+  "name": "obj_monstro_sapo",
   "spriteId": {
     "name": "spr_monstrin",
     "path": "sprites/spr_monstrin/spr_monstrin.yy",
