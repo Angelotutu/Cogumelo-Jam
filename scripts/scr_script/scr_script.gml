@@ -2,6 +2,14 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 para obter mais informações
 
 
+
+//entregas
+global.TempoEntregas = 10;
+global.IncrementarTempo = 5;
+global.EntregasRealizadas = 0;
+global.estaComEntrega = false;
+
+
 //variaveis para os inputs
 global.pause				= 0;
 global.start				= 0;
@@ -14,7 +22,8 @@ global.jump					= 0;
 global.esporo				= 0;
 global.confirmar			= 0;
 global.voltar				= 0;
-global.troca				= 0;
+global.acao					= 0;
+//global.troca				= 0;
 
 //variaveis para os botoes;
 global.botaoh				= 0;
@@ -36,6 +45,14 @@ global.fullscreen			= 0;
 global.musica				= .5;
 global.som					= .5;
 
+function som(_snd = snd_cair_ms)
+{
+	// toca o som e guarda o id da instância
+	var _inst = audio_play_sound(_snd, 1, false);
+
+	// aplica o volume (0 a 1)
+	audio_sound_gain(_inst, global.som, 0);
+}
 
 function screenshake(_shake)
 {
@@ -56,9 +73,10 @@ function input()
 	global.esporo			= keyboard_check_pressed(ord("K")) or keyboard_check_pressed(ord("X")) or gamepad_button_check_pressed(0, gp_face2);
 	global.start			= keyboard_check_pressed(vk_escape) or keyboard_check_pressed(vk_enter) or gamepad_button_check_pressed(0, gp_start);
 	global.restart			= keyboard_check_pressed(ord("R")) or gamepad_button_check_pressed(0, gp_select);
-	global.confirmar		= keyboard_check_pressed(vk_space) or keyboard_check_pressed(vk_enter) or keyboard_check_pressed(ord("Z")) or gamepad_button_check_pressed(0, gp_face1);
+	global.confirmar		= keyboard_check_pressed(vk_space) or keyboard_check_pressed(ord("Z")) or gamepad_button_check_pressed(0, gp_face1);
 	global.voltar			= keyboard_check_pressed(vk_escape) or keyboard_check_pressed(ord("X")) or gamepad_button_check_pressed(0, gp_face2);
-	global.troca			= keyboard_check_pressed(ord("E")) or keyboard_check_pressed(ord("C")) or gamepad_button_check_pressed(0, gp_face3);
+	global.acao				= keyboard_check_pressed(ord("L")) or keyboard_check_pressed(ord("C")) or gamepad_button_check_pressed(0, gp_face3);
+	//global.troca			= keyboard_check_pressed(ord("E")) or keyboard_check_pressed(ord("C")) or gamepad_button_check_pressed(0, gp_face3);
 	//fazendo o ponteiro do mouse original sumir
 	window_set_cursor(cr_none);
 	
@@ -89,6 +107,13 @@ global.idioma		= 0;
 	global.text[0][15] = "Reiniciar";
 	global.text[0][16] = "Opções";
 	global.text[0][17] = "Menu";
+	global.text[0][18] = "Ande com:";
+	global.text[0][19] = "Pule com:";
+	global.text[0][20] = "Escale a parede usando o monstro com:";
+	global.text[0][21] = "Usar portal:";
+	global.text[0][22] = "Pegue a encomenda\n antes de prossguir com:";
+	global.text[0][23] = "Use:";
+	global.text[0][24] = "Para se defender e consumir o inimigo!";
 
 }
 #endregion
@@ -112,6 +137,13 @@ global.idioma		= 0;
 	global.text[1][15] = "Restart";
 	global.text[1][16] = "Options";
 	global.text[1][17] = "Menu";
+	global.text[1][18] = "Ande com:";
+	global.text[1][19] = "Pule com:";
+	global.text[1][20] = "Escale a parede usando o monstro com:";
+	global.text[1][21] = "Usar portal:";
+	global.text[1][22] = "Pegue a encomenda\n antes de prossguir com:";
+	global.text[1][23] = "Use:";
+	global.text[1][24] = "Para se defender e consumir o inimigo!";
 }
 #endregion
 #endregion

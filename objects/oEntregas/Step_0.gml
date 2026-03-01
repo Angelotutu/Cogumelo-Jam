@@ -10,7 +10,7 @@ if instance_exists(obj_player) && global.estaComEntrega == false && !instance_ex
 {
 	var _colisao = collision_rectangle(x - 16,y,x+sprite_width + 16, y + sprite_height,obj_player, 0, 1);
 	
-	if _colisao && keyboard_check(ord("E"))
+	if _colisao && global.acao
 	{
 		if obj_player.estado == obj_player.estado_parado || obj_player.estado == obj_player.estado_movendo()
 		{

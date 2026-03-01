@@ -5,11 +5,11 @@
 /// @desc ?
 
 
-//dados das entregas
+//dados das entregas, adicionar para a quantidade de fases, ex: marte 1 fase, urano 2 fase etc
 
 planeta = ["Marte", "Urano"];
 cliente = ["Francismar","Malson"];
 
 
-
+depth = 850;
 

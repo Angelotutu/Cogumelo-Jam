@@ -18,7 +18,7 @@ face							= 1;
 txt_debug						= "Estado_parado";
 
 //esporos
-dl_p							= 30;
+dl_p							= 15;
 tp_p							= dl_p;
 
 //trombada
@@ -49,15 +49,15 @@ tp_at							= 0;
 //mamcas
 xscale							= 1;
 yscale							= 1;
-blend							= c_blue;
+blend							= c_white;
 
 //skins
-idle							= spr_player_idle_cabeca;
-jump							= spr_player_jump_cabeca;
-troca_subir						= spr_player_begin_jump_cabeca;
-subindo							= spr_player_up_jump_cabeca;
-troca_cair						= spr_player_begin_fall_cabeca;
-caindo							= spr_player_falling_cabeca;
+idle							= sapo_idle;
+jump							= sapo_jump;
+troca_subir						= sapo_begin_jump;
+subindo							= sapo_up_jump;
+troca_cair						= sapo_begin_fall;
+caindo							= sapo_falling;
 sprite							= idle;
 //attack							= spr_monstro;
 escala							= true;
@@ -192,6 +192,8 @@ gravidade						= function()
 		//se eu cai
 		if(!cai)
 		{
+			//colocando o som
+			som();
 			var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
 			var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
 			_p1.image_speed		= .5;
@@ -244,7 +246,7 @@ esporos							= function()
 		var _esporos			= instance_create_layer(x-irandom_range(-50, 50), y-irandom_range(4, 20), "Particulas", obj_particula);
 		_esporos.image_index	= choose(5, 4, 3);
 		_esporos.image_speed	= .5;
-		_esporos.image_blend	= c_lime;
+		_esporos.image_blend	= c_purple;
 		_esporos.image_alpha	= .2;
 		_esporos.vspeed			= -.02;
 		//_esporos.image_xscale	= 1;
@@ -329,6 +331,8 @@ estado_paisana					= function()
 		//se eu cai
 		if(!cai)
 		{
+			//colocando o som
+			som();
 			var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
 			var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
 			_p1.image_speed		= .5;
@@ -551,6 +555,8 @@ estado_ostil					= function()
 		//se eu cai
 		if(!cai)
 		{
+			//colocando o som
+			som();
 			var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
 			var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
 			_p1.image_speed		= .5;
@@ -575,7 +581,6 @@ estado_vazio					= function()
 	txt_debug						= "Estado_vazio";
 	velh = 0;
 	skin(idle);
-
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
 	if not(_chao)
@@ -588,6 +593,8 @@ estado_vazio					= function()
 		//se eu cai
 		if(!cai)
 		{
+			//colocando o som
+			som();
 			var _p1				= instance_create_layer(x-8, y, "Esporos", obj_particula);
 			var _p2				= instance_create_layer(x+8, y, "Esporos", obj_particula);
 			_p1.image_index		= 3;

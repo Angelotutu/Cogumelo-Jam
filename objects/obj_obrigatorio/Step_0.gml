@@ -2,6 +2,24 @@
 // Você pode escrever seu código neste editor
 
 
+//fazendo a osquestra
+if(instance_exists(obj_player))
+{
+	var _p = obj_player;
+	
+	if(_p.entrega)
+	{
+		audio_sound_gain(msc_speed, global.musica, 0);
+		audio_sound_gain(msc_m1, 0, 0);
+	}
+	else
+	{
+		if(missao) audio_sound_gain(msc_m1, global.musica, 0);
+	}
+	
+}
+
+
 input();
 //fazendo a tela tremer com meu screenshake
 view_xport[0] = random_range(-global.shake, global.shake);

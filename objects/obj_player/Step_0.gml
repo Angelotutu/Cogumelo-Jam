@@ -5,7 +5,7 @@
 //show_debug_message(qtd_pulos);
 
 //parando se for pause
-if(global.pause) 
+if(global.pause or instance_exists(obj_transicao)) 
 {
 	velh = 0;
 	velv = 0;

@@ -108,6 +108,8 @@ gravidade						= function()
 	//se eu to no chao e aperto pular ou se aperto pular e tenho um pulo extra
 	if((_chao and global.jump)) //or (global.jump and qtd_pulos >=1))
 	{
+		//colocando o som
+		//som(snd_jump_player);
 		//animando
 		if(cab)sprite_cabeca = spr_player_begin_jump_cabeca;
 		sprite_index = spr_player_begin_jump_corpo;
@@ -153,6 +155,8 @@ gravidade						= function()
 	{
 		if(cai)
 		{
+			//colocando o som
+			som(snd_cair_player);
 			//efeito de squash squezze
 			squash(2, .5);
 			cai = false;
@@ -167,6 +171,8 @@ gravidade						= function()
 	//se eu apertar o botao pra soltar esporo e eu não estou em um monstro
 	if(global.esporo and pode_esporo)
 	{
+		//colocando o som
+		som(snd_esporo);
 		//efeito de squash squezze
 		squash(1.5, .5);
 		//colocando a animação
@@ -214,8 +220,16 @@ esporo							= function()
 	
 	
 }
+check = false;
+
 estado_trombada					= function()
 {
+	//para decrementar a qualidade da entrega 1 vez
+	if instance_exists(oUiEntregas) && check = false
+	{
+		oUiEntregas.qualidade -= 10;
+		check = true;
+	}
 	//definindo texto do estado
 	estado_text					= "Estado_Trombada";
 	//fazendo trombada
@@ -226,33 +240,7 @@ estado_trombada					= function()
 	//chacando se to pisando no chao
 	var _chao					= place_meeting(x, y+1, obj_block);
 	//se eu não estou no chao desço rapido
-	if not(_chao)
-	{
-		//aplicando gravidade 
-		velv += .5;
-		//colocando a animação
-		//anim(spr_player_falling_corpo, spr_player_falling_cabeca, .5, 0);
-		// Subindo
-		// Se ainda está na animação de início, espera terminar
-		if (velv < -1)
-		{
-		    if(cab)sprite_cabeca = spr_player_up_jump_cabeca;
-		    sprite_index = spr_player_up_jump_corpo;
-		}
-		// Transição (topo do pulo)
-		else if (abs(velv) <= 1)
-		{
-		    if(cab)sprite_cabeca = spr_player_begin_fall_cabeca;
-		    sprite_index = spr_player_begin_fall_corpo;
-		}
-		// Caindo
-		else if (velv > 1)
-		{
-		    if(cab)sprite_cabeca = spr_player_falling_cabeca;
-		    sprite_index = spr_player_falling_corpo;
-		}
-		
-	}
+	if not(_chao)velv		+=.5;
 	//aumentando o tp pra me mover
 	tp_t++;
 	if(tp_t>=dl_t or _chao) //se eu estou no chao ou ja posso me mocer
@@ -260,6 +248,7 @@ estado_trombada					= function()
 		//meu tempo reinicia
 		tp_t	= 0;
 		//e volto pro meu estado original
+		check = false;
 		estado	= estado_parado;
 	}
 	
@@ -337,5 +326,35 @@ anim							= function(_spr_cabeca = spr_player_idle_cabeca, _spr_corpo = spr_pla
 	
 	
 	
+}
+estado_finished					= function()
+{
+	image_speed					= .4;
+	sprite_index				= spr_player_finished_corpo;
+	sprite_cabeca				= spr_player_finished_cabeca;
+	if(image_index >= image_number-1) estado = estado_parado;
+	velh						= 0;
+	velv						+= 1;
+	
+}
+estado_gameover					= function()
+{
+	//definindo texto do estado
+	estado_text					= "Estado_gameover";
+	//colocando a animação
+	//anim();
+	//aplicando gravidade
+	//gravidade();
+	//chacando se to pisando no chao
+	//var _chao					= place_meeting(x, y+1, obj_block);
+
+	//fazendo o  personagem parar
+	velh						= 0;
+	
+	if global.start
+	{
+		room_restart();
+	}
+
 }
 estado	= estado_parado;

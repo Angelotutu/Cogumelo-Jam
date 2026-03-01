@@ -5,7 +5,7 @@
 
 
 
-draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, image_angle, image_blend, .5);
+//draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, image_angle, image_blend, .5);
 draw_sprite_ext(sprite, image_index, x, y, xscale, yscale, image_angle, blend, image_alpha);
 if(debug) draw_circle(x, y, dis, 1);
 if(debug) draw_circle(x, y, dis_min, 1);
