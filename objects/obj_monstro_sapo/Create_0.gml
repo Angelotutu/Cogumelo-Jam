@@ -62,6 +62,9 @@ sprite							= idle;
 //attack							= spr_monstro;
 escala							= true;
 
+//distancia para ouvir os sons e efeitos
+dis_effects						= 400;
+
 image_speed						= 0;
 skin							= function(_skin, _speed = 0)
 {
@@ -192,8 +195,19 @@ gravidade						= function()
 		//se eu cai
 		if(!cai)
 		{
-			//colocando o som
-			som();
+			if(instance_exists(obj_player))
+			{
+				var _dis = point_distance(x, y, obj_player.x, obj_player.y)
+				
+				if(_dis < dis_effects)
+				{
+					//colocando o som
+					sound();
+					screenshake(2);
+				}
+				
+			}
+			
 			var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
 			var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
 			_p1.image_speed		= .5;
@@ -205,7 +219,7 @@ gravidade						= function()
 			_p2.image_alpha		= .2;
 			_p2.vspeed			= -1;
 			
-			screenshake(2);
+			
 			cai					= true;
 		}
 		
@@ -331,8 +345,18 @@ estado_paisana					= function()
 		//se eu cai
 		if(!cai)
 		{
-			//colocando o som
-			som();
+			if(instance_exists(obj_player))
+			{
+				var _dis = point_distance(x, y, obj_player.x, obj_player.y)
+				
+				if(_dis < dis_effects)
+				{
+					//colocando o som
+					sound();
+					screenshake(2);
+				}
+				
+			}
 			var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
 			var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
 			_p1.image_speed		= .5;
@@ -344,7 +368,6 @@ estado_paisana					= function()
 			_p2.image_alpha		= .2;
 			_p2.vspeed			= -1;
 			
-			screenshake(2);
 			cai					= true;
 			
 		}
@@ -555,8 +578,19 @@ estado_ostil					= function()
 		//se eu cai
 		if(!cai)
 		{
-			//colocando o som
-			som();
+			
+			if(instance_exists(obj_player))
+			{
+				var _dis = point_distance(x, y, obj_player.x, obj_player.y)
+				
+				if(_dis < dis_effects)
+				{
+					//colocando o som
+					sound();
+					screenshake(2);
+				}
+				
+			}
 			var _p1				= instance_create_layer(x-16, y, "Esporos", obj_particula);
 			var _p2				= instance_create_layer(x+16, y, "Esporos", obj_particula);
 			_p1.image_speed		= .5;
@@ -568,7 +602,6 @@ estado_ostil					= function()
 			_p2.image_alpha		= .2;
 			_p2.vspeed			= -1;
 			
-			screenshake(2);
 			cai					= true;
 		}
 		
@@ -593,8 +626,19 @@ estado_vazio					= function()
 		//se eu cai
 		if(!cai)
 		{
-			//colocando o som
-			som();
+			
+			if(instance_exists(obj_player))
+			{
+				var _dis = point_distance(x, y, obj_player.x, obj_player.y)
+				
+				if(_dis < dis_effects)
+				{
+					//colocando o som
+					sound();
+					screenshake(2);
+				}
+				
+			}
 			var _p1				= instance_create_layer(x-8, y, "Esporos", obj_particula);
 			var _p2				= instance_create_layer(x+8, y, "Esporos", obj_particula);
 			_p1.image_index		= 3;

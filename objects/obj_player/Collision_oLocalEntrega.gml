@@ -2,16 +2,17 @@
 // Você pode escrever seu código neste editor
 
 
-if(instance_exists(oUiEntregas) and global.estaComEntrega)
+if(instance_exists(oUiEntregas) and global.estaComEntrega and image_alpha>0)
 {
 	global.estaComEntrega	= false;
-	global.EntregasRealizadas++;
+	//global.EntregasRealizadas++;
 	oUiEntregas.mode		= STATE_MODE.ENTREGOU;
-	oUiEntregas.timer		= 4;
+	//oUiEntregas.timer		= 4;
 	entrega					= true;
 	squash(2, .5);
 	image_index				= 0;
 	estado					= estado_finished;
+	
 }
 
 

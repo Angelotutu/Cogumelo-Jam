@@ -6,7 +6,7 @@ draw_sprite_ext(sprite_index, 0, x ,y, image_xscale, image_yscale, 0, c_white, 1
 if not(pode)exit;
 
 
-if not(normal or sem_consumir or consumindo) exit;
+if not(normal or (sem_consumir and !consumo) or (consumindo and consumo)) exit;
 
 //setando coisas
 draw_set_halign(1);

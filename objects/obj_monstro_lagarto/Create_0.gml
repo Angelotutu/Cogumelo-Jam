@@ -3,14 +3,14 @@
 
 
 //
-blend							= c_green;
+blend							= c_white;
 //variaveis necessarias
 velh							= 0;
 velv							= 0;
 //variaveis mudaveis
 grav							= 0.5;
-max_velh						= 1.5;
-max_velv						= 1.5;
+max_velh						= 1.8;
+max_velv						= 1.8;
 qtd_pulos						= 2;
 //manso
 manso							= false;
@@ -19,7 +19,7 @@ face							= 1;
 txt_debug						= "Estado_parado";
 
 //esporos
-dl_p							= 30;
+dl_p							= 15;
 tp_p							= dl_p;
 
 //trombada
@@ -40,7 +40,8 @@ mov								= false;
 
 //ostil
 dis								= 150;
-dis_min							= 50;
+dis_min							= 40;
+
 debug							= true;
 
 //attack
@@ -48,14 +49,19 @@ dl_at							= irandom_range(30, 60);
 tp_at							= 0;
 
 //skins
-idle							= spr_player_idle_corpo;
-run								= spr_player_run_corpo;
-jump							= spr_player_idle_corpo;
-attack							= spr_player_run_corpo;
+idle							= spr_lagarto_idle;
+run								= spr_lagarto_walking;
+run_parede						= spr_lagarto_parede_run;
+idle_parede						= spr_lagarto_parede_idle;
+parede							= spr_lagarto_up_consumido;
+jump							= spr_lagarto_idle;
+attack							= spr_lagarto_bite;
 sprite							= idle;
+xx								= 0;
 xscale							= 1;
 yscale							= 1;
 escala							= true;
+image_yscale					= .5
 
 image_speed						= 0;
 skin							= function(_skin = idle, _speed = .2, _grav = 1)
@@ -65,6 +71,7 @@ skin							= function(_skin = idle, _speed = .2, _grav = 1)
 	if(_grav = 2)
 	{
 		sprite				= _skin;
+		//sprite_index		= _skin;
 		image_speed			= _speed;
 	}
 	else if(_grav)
@@ -72,6 +79,7 @@ skin							= function(_skin = idle, _speed = .2, _grav = 1)
 		if(_chao)
 		{
 			sprite				= _skin;
+			//sprite_index		= _skin;
 			image_speed			= _speed;
 		}
 		
@@ -81,6 +89,7 @@ skin							= function(_skin = idle, _speed = .2, _grav = 1)
 		if(!_chao)
 		{
 			sprite				= _skin;
+			//sprite_index		= _skin;
 			image_speed			= _speed;
 		}
 	}
@@ -90,6 +99,8 @@ skin							= function(_skin = idle, _speed = .2, _grav = 1)
 estado_parado					= function()
 {
 	txt_debug						= "Estado_parado";
+	
+	sprite_index					= run;
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
@@ -106,7 +117,7 @@ estado_movendo					= function()
 	//aplicando gravidade
 	gravidade();
 	//colocando a skin
-	skin(run, .5);
+	skin(run, .7);
 	//vendo a face
 	if(global.right) face		= true;
 	else if(global.left) face	= 0;
@@ -179,6 +190,7 @@ estado_escalar					= function()
 	txt_debug						= "Estado_escalar";
 	//chacando se tem aprede
 	var _parede				= place_meeting(x+1, y, obj_block) or place_meeting(x-1, y, obj_block);
+	var _pc					= place_meeting(x+1, y+1, obj_block);
 	//se não tiver parede volto a andar
 	if not(_parede) estado	= estado_parado;
 
@@ -187,8 +199,9 @@ estado_escalar					= function()
 	//aplicando velocidade horizontal
 	velh = (global.right - global.left) * max_velh;
 	
-	if(global.down or global.up) skin(run,.4,2);
-	else skin(,, 2);
+	if(global.down or global.up) skin(run_parede,.5,2);
+	else if(!_pc) skin(idle_parede,, 2);
+	else skin(parede, , 2);
 	
 }
 esporos							= function()
@@ -200,7 +213,7 @@ esporos							= function()
 		var _esporos			= instance_create_layer(x-irandom_range(-50, 50), y-irandom_range(4, 20), "Particulas", obj_particula);
 		_esporos.image_index	= choose(5, 4, 3);
 		_esporos.image_speed	= .5;
-		_esporos.image_blend	= c_lime;
+		_esporos.image_blend	= c_purple;
 		_esporos.image_alpha	= .2;
 		_esporos.vspeed			= -.02;
 		//_esporos.image_xscale	= 1;
@@ -211,6 +224,7 @@ esporos							= function()
 }
 estado_trombada					= function()
 {
+	tp_at = 0;
 	txt_debug						= "Estado_trombada";
 	image_xscale					= 1;
 	image_index						= 0;
@@ -238,18 +252,19 @@ estado_trombada					= function()
 }
 estado_paisana					= function()
 {
+	sprite_index = run;
 	txt_debug						= "Estado_paisana";
 	if(velh > 0)
 	{
 		//colocando a skin
-		skin(run, .4);
+		skin(run, .6);
 		//virando
 		xscale = 1;
 	}
 	else if(velh < 0)
 	{
 		//colocando a skin
-		skin(run, .4);
+		skin(run, .6);
 		//virando
 		xscale = -1;
 	}
@@ -378,12 +393,14 @@ estado_ostil					= function()
 		if(_dis > dis_min)
 		{
 			
+			sprite_index = spr_monstro_lagarto;
 			////se eu to virado pra direita
 			if(x <= _p.x)
 			{
 				//viro pra direita
 				image_xscale = 1;
 				velh = 1;
+				face = true;
 				//se tiver uma parede na minha frente eu vou pra tras 		//se não tiver chao na minha frente eu vou pra tras
 				//colocando a skin
 				skin(run, .4);
@@ -396,6 +413,7 @@ estado_ostil					= function()
 				//viro pra direita
 				image_xscale = -1;
 				velh = -1;
+				face = false;
 				//colocando a skin
 				skin(run, .4);
 				//virando
@@ -412,6 +430,7 @@ estado_ostil					= function()
 		
 		if(_dis <= dis_min or tp_at>1) //or sprite_index == attack)//se não for maior
 		{
+			sprite_index					= spr_monstro_lagarto;
 			//eu paro e ataco
 			velh	= 0;
 			sprite	= attack;
@@ -419,17 +438,28 @@ estado_ostil					= function()
 			if(tp_at>=dl_at)
 			{
 				//attack
-				image_speed = 0.4;
+				image_speed = 0.5;
 				if(image_index >= image_number -2)
 				{
+					velh = 0
 					//atack aqui
-					image_xscale = 3;
+					image_xscale = 1;
 					
 				}
+				else if(image_index >= image_number -3)
+				{
+					if(face)velh=2;
+					else velh=-2;
+					//atack aqui
+					image_xscale = 1.5;
+					
+				}
+				
 				
 				if(image_index >= image_number)
 				{
 					//resetando
+					image_index = 0;
 					dl_at	= irandom_range(30, 60);
 					tp_at	= 0;
 							
@@ -446,6 +476,7 @@ estado_ostil					= function()
 			
 			
 		}
+		else sprite_index					= run;
 		
 	}
 	

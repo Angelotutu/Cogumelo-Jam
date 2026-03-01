@@ -109,7 +109,7 @@ gravidade						= function()
 	if((_chao and global.jump)) //or (global.jump and qtd_pulos >=1))
 	{
 		//colocando o som
-		//som(snd_jump_player);
+		//sound(snd_jump_player);
 		//animando
 		if(cab)sprite_cabeca = spr_player_begin_jump_cabeca;
 		sprite_index = spr_player_begin_jump_corpo;
@@ -156,7 +156,7 @@ gravidade						= function()
 		if(cai)
 		{
 			//colocando o som
-			som(snd_cair_player);
+			sound(snd_cair_player);
 			//efeito de squash squezze
 			squash(2, .5);
 			cai = false;
@@ -172,7 +172,7 @@ gravidade						= function()
 	if(global.esporo and pode_esporo)
 	{
 		//colocando o som
-		som(snd_esporo);
+		sound(snd_esporo);
 		//efeito de squash squezze
 		squash(1.5, .5);
 		//colocando a animação
@@ -329,7 +329,9 @@ anim							= function(_spr_cabeca = spr_player_idle_cabeca, _spr_corpo = spr_pla
 }
 estado_finished					= function()
 {
-	image_speed					= .4;
+	//definindo texto do estado
+	estado_text					= "Estado_finished";
+	image_speed					= .45;
 	sprite_index				= spr_player_finished_corpo;
 	sprite_cabeca				= spr_player_finished_cabeca;
 	if(image_index >= image_number-1) estado = estado_parado;

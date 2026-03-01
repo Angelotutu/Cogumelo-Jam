@@ -1,7 +1,10 @@
 /// @desc ?
 
 if(instance_exists(obj_transicao))exit;
+
 draw_sprite(sUiEntregas,spriteShow,w - menosW - 8,16);
+
+draw_text(20,20, timer);
 
 switch(mode)
 {
@@ -10,7 +13,7 @@ switch(mode)
 
 		draw_set_colour(c_black);
 
-		draw_text(w - menosW, 24,"Entrega "+ string(global.EntregasRealizadas + 1));
+		draw_text(w - menosW, 24,"Entrega "+ string(qualFase));
 
 		draw_text(w - menosW, 24 * 2.5,nome);
 
@@ -28,7 +31,7 @@ switch(mode)
 	case STATE_MODE.ENTREGOU:
 		draw_set_colour(c_black);
 
-		draw_text(w - menosW, 24,"Entrega "+ string(global.EntregasRealizadas));
+		draw_text(w - menosW, 24,"Entrega "+ string(qualFase));
 
 		draw_text(w - menosW, 48,"Sucesso");
 
@@ -41,18 +44,29 @@ switch(mode)
 	case STATE_MODE.FALHOU:
 		draw_set_colour(c_black);
 
-		draw_text(w - menosW, 24,"Entrega "+ string(global.EntregasRealizadas + 1));
+		draw_text(w - menosW, 24,"Entrega "+ string(qualFase));
 
 		draw_text(w - menosW, 48,"Falhou");
+	
+	break;
+	
+	case STATE_MODE.FALHOUQUALIDADE:
+		draw_set_colour(c_black);
+
+		draw_text(w - menosW, 24,"Entrega "+ string(qualFase));
+
+		draw_text(w - menosW, 48,"Sua encomenda \nquebrou volte \ne peguei outra");
 	
 	break;
 	
 	case STATE_MODE.VOLTANDO:
 		draw_set_colour(c_black);
 
-		draw_text(w - menosW, 24,"Entrega "+ string(global.EntregasRealizadas));
+		draw_text(w - menosW, 24,"Entrega "+ string(qualFase));
 
-		draw_text(w - menosW, 48,"Realizada :)");
+		draw_text(w - menosW, 24 * 2.5,"Realizada :)");
+		
+		draw_text(w - menosW, 24 * 4,"Volte para o \nportal");
 		
 		
 		draw_set_halign(fa_center);

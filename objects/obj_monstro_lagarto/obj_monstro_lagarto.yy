@@ -3,8 +3,8 @@
   "resourceVersion": "1.0",
   "name": "obj_monstro_lagarto",
   "spriteId": {
-    "name": "spr_monstro",
-    "path": "sprites/spr_monstro/spr_monstro.yy",
+    "name": "spr_monstro_lagarto",
+    "path": "sprites/spr_monstro_lagarto/spr_monstro_lagarto.yy",
   },
   "solid": false,
   "visible": true,

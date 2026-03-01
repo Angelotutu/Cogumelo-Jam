@@ -1,7 +1,7 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
-
+show_debug_message("som:"+string(global.som))
 //fazendo a osquestra
 if(instance_exists(obj_player))
 {
@@ -11,10 +11,14 @@ if(instance_exists(obj_player))
 	{
 		audio_sound_gain(msc_speed, global.musica, 0);
 		audio_sound_gain(msc_m1, 0, 0);
+		audio_sound_gain(msc_m2, 0, 0);
+		audio_sound_gain(msc_m3, 0, 0);
 	}
 	else
 	{
-		if(missao) audio_sound_gain(msc_m1, global.musica, 0);
+		if(missao == 1) audio_sound_gain(msc_m1, global.musica, 0);
+		if(missao == 2) audio_sound_gain(msc_m2, global.musica, 0);
+		if(missao == 3) audio_sound_gain(msc_m3, global.musica, 0);
 	}
 	
 }

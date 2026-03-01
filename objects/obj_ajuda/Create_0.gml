@@ -3,6 +3,5 @@
 
 
 
-posso = 0;
-
+consumo			= false
 

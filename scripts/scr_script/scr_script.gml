@@ -6,9 +6,12 @@
 //entregas
 global.TempoEntregas = 10;
 global.IncrementarTempo = 5;
-global.EntregasRealizadas = 0;
+//global.EntregasRealizadas = 0;
 global.estaComEntrega = false;
 
+global.entregouFase1 = false;
+global.entregouFase2 = false;
+global.entregouFase3 = false;
 
 //variaveis para os inputs
 global.pause				= 0;
@@ -45,7 +48,7 @@ global.fullscreen			= 0;
 global.musica				= .5;
 global.som					= .5;
 
-function som(_snd = snd_cair_ms)
+function sound(_snd = snd_cair_ms)
 {
 	// toca o som e guarda o id da instância
 	var _inst = audio_play_sound(_snd, 1, false);

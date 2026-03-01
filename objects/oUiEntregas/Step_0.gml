@@ -67,7 +67,7 @@ switch(mode)
 		{
 			spriteShow = 3;
 			oSpawn.image_index = 1;	
-			global.EntregasRealizadas -= 1;
+			//global.EntregasRealizadas -= 1;
 			mode = STATE_MODE.VOLTANDOFALHA;
 		}
 	break;
@@ -89,6 +89,7 @@ switch(mode)
 			_t.essa_room	= rm_lobby;
 			pode_transicao	= false;
 		}
+		
 	break;
 	
 }

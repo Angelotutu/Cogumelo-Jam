@@ -18,8 +18,7 @@ if instance_exists(obj_player) && global.estaComEntrega == false && !instance_ex
 			global.estaComEntrega = true;
 			
 			var _entrega = instance_create_depth(x,y,0,oUiEntregas);
-			_entrega.nome = cliente[global.EntregasRealizadas];
-			_entrega.planeta = planeta[global.EntregasRealizadas];
+			
 		}
 	}
 }
